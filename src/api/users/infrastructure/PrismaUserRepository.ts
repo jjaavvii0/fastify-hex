@@ -7,19 +7,20 @@ const prisma = new PrismaClient();
 export const userRepository: IUserRepository = {
     async create(user: Omit<User, "id">): Promise<PublicUser> {
         const newUser = await prisma.user.create({
-            data: { email: user.email, password: user.password, name: user.name},
+            data: { email: user.email, password: user.password, name: user.name, profilePicture: user.profilePicture},
         });
         return {
             id: newUser.id,
             email: newUser.email,
             name: newUser.name ?? undefined,
+            profilePicture:  newUser.profilePicture ?? undefined,
         };
     },
 
     async findById(id: number): Promise<PublicUser | null> {
         const user = await prisma.user.findUnique({ where: { id } });
         return user
-            ? { id: user.id, email: user.email, name: user.name ?? undefined }
+            ? { id: user.id, email: user.email, name: user.name ?? undefined, profilePicture: user.profilePicture?? undefined }
             : null;
     },
 
@@ -29,6 +30,7 @@ export const userRepository: IUserRepository = {
             id: user.id,
             email: user.email,
             name: user.name ?? undefined,
+            profilePicture: user.profilePicture ?? undefined
         }));
     },
 };

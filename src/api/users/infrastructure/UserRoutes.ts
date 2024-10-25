@@ -9,12 +9,13 @@ import { User } from "../domain/User";
 
 export async function userRoutes(server: FastifyInstance) {
     server.post("/users", async (request, reply) => {
-        const { email, name, password } = request.body as {
+        const { email, name, password, profilePicture } = request.body as {
             email: string;
             password: string;
             name?: string;
+            profilePicture?: string
         };
-        const user = await createUserUseCase(userRepository, email, password, name);
+        const user = await createUserUseCase(userRepository, email, password, name, profilePicture);
         reply.status(201).send(user);
     });
 
