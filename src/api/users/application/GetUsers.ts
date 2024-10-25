@@ -1,8 +1,8 @@
 import { IUserRepository } from "../domain/IUserRepository";
-import { User } from "../domain/User";
+import { PublicUser, User } from "../domain/User";
 
 export const getUsersUseCase = async (
     userRepository: IUserRepository
-): Promise<User[]> => {
+): Promise<PublicUser[]> => {
     return await userRepository.findAll();
 };
