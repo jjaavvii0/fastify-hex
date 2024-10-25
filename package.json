@@ -1,0 +1,30 @@
+{
+  "name": "asafe-backendhex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/api/server.js",
+    "dev": "ts-node src/api/server.ts",
+    "build": "tsc",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:generate": "npx prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@prisma/client": "^5.21.1",
+    "@types/node": "^22.7.9",
+    "pino-pretty": "^11.3.0",
+    "prisma": "^5.21.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "fastify": "^4.28.1",
+    "fastify-socket.io": "^5.1.0",
+    "socket-io": "^1.0.0"
+  }
+}
