@@ -5,32 +5,31 @@ import { PublicUser, User } from "../domain/User";
 const prisma = new PrismaClient();
 
 export const userRepository: IUserRepository = {
-    async create(user: Omit<User, "id">): Promise<PublicUser> {
+    async create(user: Omit<User, "id" | "posts">): Promise<PublicUser> {
         const newUser = await prisma.user.create({
-            data: { email: user.email, password: user.password, name: user.name, profilePicture: user.profilePicture},
+            data: {
+                email: user.email,
+                password: user.password,
+                name: user.name,
+                profilePicture: user.profilePicture,
+                roles: user.roles,
+            },
         });
-        return {
-            id: newUser.id,
-            email: newUser.email,
-            name: newUser.name ?? undefined,
-            profilePicture:  newUser.profilePicture ?? undefined,
-        };
+
+        const { password, ...publicUser } = newUser;
+        return publicUser;
     },
 
     async findById(id: number): Promise<PublicUser | null> {
         const user = await prisma.user.findUnique({ where: { id } });
-        return user
-            ? { id: user.id, email: user.email, name: user.name ?? undefined, profilePicture: user.profilePicture?? undefined }
-            : null;
+        if (!user) return null;
+
+        const { password, ...publicUser } = user;
+        return publicUser;
     },
 
     async findAll(): Promise<PublicUser[]> {
         const users = await prisma.user.findMany();
-        return users.map((user) => ({
-            id: user.id,
-            email: user.email,
-            name: user.name ?? undefined,
-            profilePicture: user.profilePicture ?? undefined
-        }));
+        return users.map(({ password, ...publicUser }) => publicUser);
     },
 };

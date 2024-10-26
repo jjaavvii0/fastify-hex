@@ -1,13 +1,9 @@
 import { IUserRepository } from "../domain/IUserRepository";
-import { PublicUser, User } from "../domain/User";
+import { CreateUserParams, PublicUser, User } from "../domain/User";
 
 export const createUserUseCase = async (
     userRepository: IUserRepository,
-    email: string,
-    password: string,
-    name?: string,
-    profilePicture?: string
+    userData: CreateUserParams
 ): Promise<PublicUser> => {
-    const user: Omit<User, "id"> = { email, name, password, profilePicture };
-    return await userRepository.create(user);
+    return await userRepository.create(userData);
 };
