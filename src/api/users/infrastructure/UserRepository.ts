@@ -32,4 +32,27 @@ export const userRepository: IUserRepository = {
         const users = await prisma.user.findMany();
         return users.map(({ password, ...publicUser }) => publicUser);
     },
+
+    async update(user: Partial<User>): Promise<PublicUser | null> {
+        if (!user.id) return null;
+        const updatedUser = await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                ...(user.email && { email: user.email }),
+                ...(user.password && { password: user.password }),
+                ...(user.name && { name: user.name }),
+                ...(user.profilePicture && {
+                    profilePicture: user.profilePicture,
+                }),
+                ...(user.roles && { roles: user.roles }),
+            },
+        });
+        const { password, ...publicUser } = updatedUser;
+        return publicUser;
+    },
+
+    async delete(id: number): Promise<any> {
+        const deletedUser = await prisma.user.delete({ where: { id } });
+        return `User deleted: ${deletedUser.id}`;
+    },
 };

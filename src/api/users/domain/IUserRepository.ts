@@ -4,6 +4,6 @@ export interface IUserRepository {
     create(user: CreateUserParams): Promise<PublicUser>;
     findById(id: number): Promise<PublicUser | null>;
     findAll(): Promise<PublicUser[]>;
-    // update(id: number, user: Partial<User>): Promise<User>;
-    // delete(id: number): Promise<void>;
+    update(user: Partial<User>): Promise<PublicUser|null>;
+    delete(id: number): Promise<any>;
 }
