@@ -5,19 +5,22 @@ import dotenv from "dotenv";
 //ROUTES
 import { userRoutes } from "./api/users/infrastructure/UserRoutes";
 import { authRoutes } from "./api/auth/infrastructure/AuthRoutes";
+import { postRoutes } from "./api/posts/infrastructure/PostRoutes";
 //OTHERS
 import { createSocketIO } from "./api/realtime/infrastructure/createSocketIO";
 //CONFIG
 import { fastifyConfig, socketConfig } from "./config/serversOptions";
-dotenv.config();
 
+dotenv.config();
 const server = Fastify(fastifyConfig);
 const io = new SocketIOServer(server.server, socketConfig);
 
 createSocketIO(io);
 
-server.register(userRoutes, { prefix: "/api" });
-server.register(authRoutes, { prefix: "/api" });
+server.register(userRoutes, { prefix: "/api/users" });
+server.register(authRoutes, { prefix: "/api/auth" });
+server.register(postRoutes, { prefix: "/api/posts" });
+
 server.get("/", async (request, reply) => {
     return { status: "working" };
 });

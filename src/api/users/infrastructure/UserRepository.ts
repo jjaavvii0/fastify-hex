@@ -51,7 +51,7 @@ export const userRepository: IUserRepository = {
         return publicUser;
     },
 
-    async delete(id: number): Promise<any> {
+    async delete(id: number): Promise<string> {
         const deletedUser = await prisma.user.delete({ where: { id } });
         return `User deleted: ${deletedUser.id}`;
     },

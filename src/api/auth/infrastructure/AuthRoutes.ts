@@ -3,7 +3,7 @@ import { logUserUseCase } from "../application/LogUser";
 import { authRepository } from "./AuthRepository";
 
 export async function authRoutes(server: FastifyInstance) {
-    server.post("/auth", async (request, reply) => {
+    server.post("/", async (request, reply) => {
         try {
             const { email, password } = request.body as any;
             const user = await logUserUseCase(authRepository, {
