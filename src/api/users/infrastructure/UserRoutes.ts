@@ -41,30 +41,39 @@ export async function userRoutes(server: FastifyInstance) {
     });
     //TODO = ERROR HANDLING
     server.patch("/users", async (request, reply) => {
-        const {
-            email,
-            password,
-            name,
-            profilePicture,
-            roles = ["user"],
-        } = request.body as {
-            email: string;
-            password: string;
-            name?: string | null;
-            profilePicture?: string | null;
-            roles?: string[];
-        };
+        try {
+            const {
+                id,
+                email,
+                password,
+                name,
+                profilePicture,
+                roles = ["user"],
+            } = request.body as {
+                id: number;
+                email: string;
+                password: string;
+                name?: string | null;
+                profilePicture?: string | null;
+                roles?: string[];
+            };
 
-        const rolesWithoutAdmin = roles.includes("admin") ? ["user"] : roles;
+            const rolesWithoutAdmin = roles.includes("admin")
+                ? ["user"]
+                : roles;
 
-        const updatedUser = await updateUserUseCase(userRepository, {
-            email,
-            password,
-            name: name ?? undefined,
-            profilePicture: profilePicture ?? undefined,
-            roles: rolesWithoutAdmin,
-        });
-        reply.status(200).send(updatedUser);
+            const updatedUser = await updateUserUseCase(userRepository, {
+                id,
+                email,
+                password,
+                name: name ?? undefined,
+                profilePicture: profilePicture ?? undefined,
+                roles: rolesWithoutAdmin,
+            });
+            reply.status(200).send(updatedUser);
+        } catch (error) {
+            reply.status(500).send({ error });
+        }
     });
 
     server.delete("/users", async (request, reply) => {
