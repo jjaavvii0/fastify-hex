@@ -1,4 +1,7 @@
-export interface ISocketRepository{
-    disconnectUser(socket:any):void;
-    handleMessage(socket:any, io:any, message:string):void;
+import { Server, Socket } from "socket.io";
+
+export interface ISocketRepository {
+    disconnectUser(socket: Socket): void;
+    handleMessage(socket: Socket, io: Server, message: string): void;
+    sendNotificationToAll(io: Server, message: string): void;
 }

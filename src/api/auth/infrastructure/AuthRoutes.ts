@@ -13,10 +13,10 @@ export async function authRoutes(server: FastifyInstance) {
             reply.setCookie("access_token", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
-                sameSite: "strict",
-                maxAge: 24 * 60 * 60
+                sameSite: "lax",
+                maxAge: 24 * 60 * 60,
             });
-            reply.status(200).send(user);
+            reply.status(200).send({user, token});
         } catch (e) {
             const errorMessage =
                 (e as Error).message || "Authentication failed";
