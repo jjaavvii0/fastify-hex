@@ -55,4 +55,12 @@ export const userRepository: IUserRepository = {
         const deletedUser = await prisma.user.delete({ where: { id } });
         return `User deleted: ${deletedUser.id}`;
     },
+    async uploadProfileImg(idUser: number, filePath: string): Promise<PublicUser> {
+        const updatedUser = await prisma.user.update({
+            where: { id: idUser },
+            data: { profilePicture: filePath },
+        });
+        const { password, ...publicUser } = updatedUser;
+        return publicUser;
+    },
 };

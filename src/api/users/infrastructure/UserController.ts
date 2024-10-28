@@ -4,6 +4,9 @@ import { createUserUseCase } from "../application/CreateUser";
 import { getUsersUseCase } from "../application/GetUsers";
 import { deleteUserUseCase } from "../application/DeleteUser";
 import { updateUserUseCase } from "../application/UpdateUser";
+import { uploadProfileImgUseCase } from "../application/UploadProfileImg";
+
+import { saveFile } from "../../../shared/infrastructure/services/FileStorageService";
 
 export const userController = {
     async createUser(request: FastifyRequest, reply: FastifyReply) {
@@ -90,6 +93,28 @@ export const userController = {
             } else {
                 reply.status(500).send({ error: error.message });
             }
+        }
+    },
+    async uploadProfileImg(request: FastifyRequest, reply: FastifyReply) {
+        try {
+            const { id } = request.params as { id: number };
+            const image = await request.file();
+            if (!image)
+                return reply.status(400).send({ error: "No image provided" });
+
+            const filePath = await saveFile(image);
+
+            const updatedUser = await uploadProfileImgUseCase(
+                userRepository,
+                Number(id),
+                filePath
+            );
+
+            reply
+                .status(200)
+                .send({ message: "Image uploaded", user: updatedUser });
+        } catch (error: any) {
+            reply.status(500).send({ error: error.message });
         }
     },
 };

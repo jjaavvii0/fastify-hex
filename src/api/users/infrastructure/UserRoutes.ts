@@ -17,4 +17,9 @@ export async function userRoutes(server: FastifyInstance) {
         userController.deleteUser
     );
     // server.get("/users/:id", userController.getUserById); //TODO
+    server.post(
+        "/:id/uploadProfileImg",
+        { preHandler: [authMiddleware] },
+        userController.uploadProfileImg
+    );
 }
