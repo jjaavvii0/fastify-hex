@@ -5,6 +5,6 @@ export interface IUserRepository {
     findById(id: number): Promise<PublicUser | null>;
     findAll(): Promise<PublicUser[]>;
     update(user: Partial<User>): Promise<PublicUser | null>;
-    delete(id: number): Promise<any>;
+    delete(id: number): Promise<string>;
     uploadProfileImg(idUser: number, filePath: string): Promise<PublicUser | null>;
 }

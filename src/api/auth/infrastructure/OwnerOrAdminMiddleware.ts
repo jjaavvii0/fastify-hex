@@ -1,11 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import { FastifyReply } from "fastify";
 
 export function ownerOrAdminMiddleware(
     resourceIdKey: string,
     resourceType: "post" | "user"
 ) {
-    return async (request: any, reply: any) => {
+    return async (request: any, reply: FastifyReply ) => {
         const { roles, id: userId } = request.user;
 
         if (roles.includes("admin")) return;

@@ -86,7 +86,7 @@ export const userController = {
         const { id } = request.params as { id: number };
         try {
             await deleteUserUseCase(userRepository, Number(id));
-            reply.status(204).send();
+            reply.status(200).send();
         } catch (error: any) {
             if (error.code === "P2025") {
                 reply.status(404).send({ error: "User not found" });

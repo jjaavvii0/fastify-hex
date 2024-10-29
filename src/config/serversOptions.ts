@@ -1,5 +1,6 @@
 export const fastifyConfig = {
     logger: {
+        level: process.env.NODE_ENV !== "test" ? "info" : "warn",
         transport: {
             target: "pino-pretty",
             options: {
@@ -9,11 +10,11 @@ export const fastifyConfig = {
             },
         },
     },
-}
+};
 
 export const socketConfig = {
     cors: {
         origin: "*",
         methods: ["GET", "POST"],
     },
-}
+};

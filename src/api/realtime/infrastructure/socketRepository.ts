@@ -13,6 +13,5 @@ export const socketRepository: ISocketRepository = {
 
     sendNotificationToAll(io: Server, message: string): void {
         io.emit("notification", message);
-        console.log("Notification sent to all users:", message);
     },
 };

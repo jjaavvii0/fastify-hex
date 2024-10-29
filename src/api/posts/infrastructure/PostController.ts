@@ -67,7 +67,7 @@ export const postsController = {
         try {
             const { id } = request.params as { id: number };
             await deletePostUseCase(postRepository, Number(id));
-            reply.status(204).send();
+            reply.status(200).send();
         } catch (error: any) {
             if (error.code === "P2025") {
                 reply.status(404).send({ error: "Post not found" });
