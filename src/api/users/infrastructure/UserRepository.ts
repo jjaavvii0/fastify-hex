@@ -4,7 +4,7 @@ import { PublicUser, User } from "../domain/User";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
-const SALT_ROUNDS = 10;
+const SALT_ROUNDS = Number(process.env.SALT_ROUNDS);
 
 export const userRepository: IUserRepository = {
     async create(user: Omit<User, "id" | "posts">): Promise<PublicUser> {

@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { FastifyReply } from "fastify";
 
 export function authMiddleware(request: any, reply: FastifyReply, next: () => void) {
-    const { access_token } = request.cookies;
+    const access_token = request.cookies.access_token || request.headers.access_token;
     if (!access_token) return reply.status(401).send("No token available");
     try {
         const decoded = jwt.verify(

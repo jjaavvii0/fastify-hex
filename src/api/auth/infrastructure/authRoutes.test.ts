@@ -2,9 +2,11 @@ import request from "supertest";
 import { server } from "../../../server";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config();
 
 const prisma = new PrismaClient();
-const SALT_ROUNDS = 10;
+const SALT_ROUNDS = Number(process.env.SALT_ROUNDS);
 
 const testUser = {
     email: "testingUser@email.com",

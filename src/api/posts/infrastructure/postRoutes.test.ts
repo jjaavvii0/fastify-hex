@@ -5,7 +5,7 @@ import { Post } from "../domain/Post";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
-const SALT_ROUNDS = 10;
+const SALT_ROUNDS = Number(process.env.SALT_ROUNDS);
 
 const testUser = {
     email: "testuser@example.com",

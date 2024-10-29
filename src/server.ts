@@ -1,4 +1,4 @@
-//THIRD PARTY PACKAGES
+// THIRD PARTY PACKAGES
 import Fastify from "fastify";
 import { Server as SocketIOServer } from "socket.io";
 import dotenv from "dotenv";
@@ -6,15 +6,17 @@ import fastifyCookie from "@fastify/cookie";
 import multipart from "@fastify/multipart";
 import cors from "@fastify/cors";
 import fastifyStatic from "@fastify/static";
+import swagger from "@fastify/swagger";
 import path from "path";
-//ROUTES
+// ROUTES
 import { userRoutes } from "./api/users/infrastructure/UserRoutes";
 import { authRoutes } from "./api/auth/infrastructure/AuthRoutes";
 import { postRoutes } from "./api/posts/infrastructure/PostRoutes";
-//REST
+// REST
 import { initializeSocket } from "./api/realtime/infrastructure/InitializeSocket";
 import { fastifyConfig, socketConfig } from "./config/serversOptions";
 import { socketRoutes } from "./api/realtime/infrastructure/SocketRoutes";
+const openapiSpec = require('./config/openapi');
 
 dotenv.config();
 const server = Fastify(fastifyConfig);
@@ -31,7 +33,6 @@ server.register(fastifyStatic, {
     root: path.join(__dirname, "../uploads"),
     prefix: "/uploads/",
 });
-
 server.register(fastifyCookie);
 server.register(multipart);
 
@@ -39,6 +40,16 @@ server.register(userRoutes, { prefix: "/api/users" });
 server.register(authRoutes, { prefix: "/api/auth" });
 server.register(postRoutes, { prefix: "/api/posts" });
 server.register(socketRoutes, { prefix: "/api/socket", sendNotificationToAll });
+
+server.register(swagger, {
+    mode: "static",
+    routePrefix: "/documentation",
+    specification: {
+        document: openapiSpec,
+        baseDir: __dirname,
+    },
+    exposeRoute: true,
+});
 
 server.setErrorHandler((error, request, reply) => {
     console.error("Unhandled error:", error);
@@ -58,7 +69,9 @@ const start = async () => {
         }
     }
 };
+
 if (process.env.NODE_ENV !== "test") {
     start();
 }
+
 export { server, start };
