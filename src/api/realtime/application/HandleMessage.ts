@@ -1,5 +1,8 @@
+import { z } from "zod";
 import { ISocketRepository } from "../domain/ISocketRepository";
 import { Server, Socket } from "socket.io";
+
+const messageSchema = z.string().min(1);
 
 export const handleMessageUseCase = (
     socketRepository: ISocketRepository,
@@ -7,10 +10,6 @@ export const handleMessageUseCase = (
     io: Server,
     message: string
 ): void => {
-    if (!message || typeof message !== "string") {
-        console.log(`Invalid message from: ${socket.id}`);
-        return;
-    }
-
-    socketRepository.handleMessage(socket, io, message);
+    const validatedMessage = messageSchema.parse(message);
+    socketRepository.handleMessage(socket, io, validatedMessage);
 };
