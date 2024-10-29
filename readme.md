@@ -34,28 +34,28 @@ npm run dev
 Puedes ver la documentación en esta URL: http://localhost:3000/documentation
 
 ## Para probar la API, sigue estos pasos:
-# (1) Crear un usuario
+### (1) Crear un usuario
 Ruta: POST:/api/users
 Usa esta ruta para crear un usuario en la base de datos.
 
-# (2) Logear usuario
+### (2) Logear usuario
 Ruta: POST:/api/auth
 Utiliza esta ruta para autenticar el usuario y obtener el token de acceso (access_token).
 
-# (3) Autorizar en Swagger
+### (3) Autorizar en Swagger
 Haz clic en el botón "Authorize" en la parte superior derecha de la interfaz de Swagger.
 Pega el access_token obtenido en el paso anterior.
 El token de acceso es similar a este ejemplo: eyJhbGciOiJIUzxxxasjhdasjodhsadhbasdiashdiosahbdsaxxxxxxxxx
 
-# (4) Operaciones con el Usuario y Posts
+### (4) Operaciones con el Usuario y Posts
 Una vez autorizado, podrás realizar todas las operaciones relacionadas con tu usuario y sus publicaciones.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Dado que la creación de usuarios "admin" no está permitida mediante las rutas de la API, puedes crear un usuario admin directamente en PostgreSQL siguiendo estos pasos:
-# (1) Conéctate a PostgreSQL
+### (1) Conéctate a PostgreSQL
 Abre la terminal y conéctate a la base de datos con el comando: psql -U nombre_usuario -d nombre_base_datos
 Asegúrate de reemplazar nombre_usuario por el nombre de tu usuario en PostgreSQL y nombre_base_datos por el nombre de la base de datos configurado en el paso 4.
 
-# (2) Ejecuta la Consulta para Crear el Usuario "admin"
+### (2) Ejecuta la Consulta para Crear el Usuario "admin"
 Una vez dentro de la consola de PostgreSQL, ejecuta la siguiente consulta SQL: INSERT INTO "User" (email, name, password, roles, "createdAt", "updatedAt") VALUES ('admin@mail.com', 'adminName', '$2b$10$Xwx2J.VLyuPdV.xkyfF/ququae55bn2wKRN1PSAaGReb/W.y/XJq6', '{admin}', NOW(), NOW());
 Esto creará un usuario con el correo admin@mail.com y la contraseña 123456.
 Asegúrate de que en tu archivo .env la variable SALT_ROUNDS esté configurada en 10 para que la contraseña se haya hasheado correctamente con el mismo número de rondas.
