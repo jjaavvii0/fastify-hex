@@ -48,8 +48,11 @@ Pega el access_token obtenido en el paso anterior.
 El token de acceso es similar a este ejemplo: eyJhbGciOiJIUzxxxasjhdasjodhsadhbasdiashdiosahbdsaxxxxxxxxx
 
 ### (4) Operaciones con el Usuario y Posts
+
 Una vez autorizado, podrás realizar todas las operaciones relacionadas con tu usuario y sus publicaciones.
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+---------------------------
+
 Dado que la creación de usuarios "admin" no está permitida mediante las rutas de la API, puedes crear un usuario admin directamente en PostgreSQL siguiendo estos pasos:
 ### (1) Conéctate a PostgreSQL
 Abre la terminal y conéctate a la base de datos con el comando: psql -U nombre_usuario -d nombre_base_datos
